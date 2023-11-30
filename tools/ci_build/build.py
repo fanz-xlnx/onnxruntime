@@ -1428,8 +1428,25 @@ def generate_build_tree(
                     f"-DVERSION_PRIVATE_PART={MM}{DD}",
                     f"-DVERSION_STRING={ort_major}.{ort_minor}.{build_number}.{source_version[0:7]}",
                 ]
+    compile_flags = ['/Z7', '/MP', '/guard:cf', '/DWIN32', '/D_WINDOWS', '/DWINVER=0x0A00', '/D_WIN32_WINNT=0x0A00', '/DNTDDI_VERSION=0x0A000000']
+    linker_flags = ['/guard:cf']
 
     for config in configs:
+        cflags = compile_flags.copy()
+        ld_flags = linker_flags.copy()
+        if config == 'Release':
+          cflags += ["/O2", "/Ob2", "/DNDEBUG", "/Gw", "/GL"]
+        elif config == 'RelWithDebInfo':
+          cflags += ["/O2", "/Ob1", "/DNDEBUG", "/Gw", "/GL"]
+        elif config == 'Debug':
+          cflags += ["/Ob0", "/Od", "/RTC1", "/fsanitize=address"]
+          if platform.architecture()[0] != "32bit":
+            cflags += ["/fsanitize=address"]
+        elif config == 'MinSizeRel':
+          cflags += ["/O1", "/Ob1", "/DNDEBUG", "/Gw", "/GL"]
+        cxxflags = cflags.copy()
+        cxxflags += ["/EHsc"]
+
         config_build_dir = get_config_build_dir(build_dir, config)
         os.makedirs(config_build_dir, exist_ok=True)
         if args.use_tvm:
@@ -1446,6 +1463,8 @@ def generate_build_tree(
         run_subprocess(
             [
                 *cmake_args,
+                "-DCMAKE_C_FLAGS=%s" % (' '.join(cflags)),
+                "-DCMAKE_CXX_FLAGS=%s" % (' '.join(cxxflags)),
                 "-Donnxruntime_ENABLE_MEMLEAK_CHECKER="
                 + (
                     "ON"

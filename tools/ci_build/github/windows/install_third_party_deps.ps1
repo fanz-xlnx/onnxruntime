@@ -42,7 +42,10 @@ if($build_config -eq 'Release'){
 } elseif($build_config -eq 'RelWithDebInfo'){
   $compile_flags += "$debug_info_format", "/O2", "/Ob1", "/DNDEBUG", "/Gw", "/GL"
 } elseif($build_config -eq 'Debug'){
-  $compile_flags += "$debug_info_format", "/Ob0", "/Od", "/RTC1"
+  $compile_flags += "$debug_info_format", "/Ob0", "/Od", "/RTC1", "/fsanitize=address"
+  if($cpu_arch -eq 'x64'){
+    $compile_flags += "/fsanitize=address"
+  }
 } elseif($build_config -eq 'MinSizeRel'){
   $compile_flags += "/O1", "/Ob1", "/DNDEBUG", "/Gw", "/GL"
 }
