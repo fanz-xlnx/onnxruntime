@@ -547,6 +547,7 @@ function Install-Protobuf {
     param (
         [Parameter(Mandatory)][string]$cmake_path,
         [Parameter(Mandatory)][string]$msbuild_path,
+        [Parameter(Mandatory)][string]$cpu_arch,
         [Parameter(Mandatory)][string]$src_root,
         [Parameter(Mandatory)][CMakeBuildType]$build_config,
         [Parameter(Mandatory)][string[]]$cmake_extra_args
