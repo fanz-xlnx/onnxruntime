@@ -351,9 +351,9 @@ function Install-Pybind {
     }
 
     if($cpu_arch -eq 'x86'){
-      $msbuild_args +=  "/p:platform=\"Win32\""
+      $msbuild_args +=  "/p:platform=Win32"
     } elseif($cpu_arch -eq 'x64') {
-      $msbuild_args +=  "/p:platform=\"x64\""
+      $msbuild_args +=  "/p:platform=x64"
     }
 
 
@@ -435,9 +435,9 @@ function Install-Abseil {
     }
 
     if($cpu_arch -eq 'x86'){
-      $msbuild_args +=  "/p:platform=\"Win32\""
+      $msbuild_args +=  "/p:platform=Win32"
     } elseif($cpu_arch -eq 'x64') {
-      $msbuild_args +=  "/p:platform=\"x64\""
+      $msbuild_args +=  "/p:platform=x64"
     }
 
     $final_args = $msbuild_args + "absl.sln"
@@ -508,9 +508,9 @@ function Install-UTF8-Range {
     }
 
     if($cpu_arch -eq 'x86'){
-      $msbuild_args +=  "/p:platform=\"Win32\""
+      $msbuild_args +=  "/p:platform=Win32"
     } elseif($cpu_arch -eq 'x64') {
-      $msbuild_args +=  "/p:platform=\"x64\""
+      $msbuild_args +=  "/p:platform=x64"
     }
 
     $final_args = $msbuild_args + "utf8_range.sln"
@@ -590,9 +590,9 @@ function Install-Protobuf {
 
     $msbuild_args = "-nodeReuse:false", "-nologo", "-nr:false", "-maxcpucount", "-p:UseMultiToolTask=true", "-p:configuration=`"$build_config`""
     if($cpu_arch -eq 'x86'){
-      $msbuild_args +=  "/p:platform=\"Win32\""
+      $msbuild_args +=  "/p:platform=Win32"
     } elseif($cpu_arch -eq 'x64') {
-      $msbuild_args +=  "/p:platform=\"x64\""
+      $msbuild_args +=  "/p:platform=x64"
     }
 
     if ($use_cache) {
