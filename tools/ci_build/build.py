@@ -1428,7 +1428,7 @@ def generate_build_tree(
                     f"-DVERSION_PRIVATE_PART={MM}{DD}",
                     f"-DVERSION_STRING={ort_major}.{ort_minor}.{build_number}.{source_version[0:7]}",
                 ]
-    compile_flags = ['/Z7', '/MP', '/guard:cf', '/DWIN32', '/D_WINDOWS', '/DWINVER=0x0A00', '/D_WIN32_WINNT=0x0A00', '/DNTDDI_VERSION=0x0A000000']
+    compile_flags = ['/MP', '/guard:cf', '/DWIN32', '/D_WINDOWS', '/DWINVER=0x0A00', '/D_WIN32_WINNT=0x0A00', '/DNTDDI_VERSION=0x0A000000']
     linker_flags = ['/guard:cf']
 
     for config in configs:
