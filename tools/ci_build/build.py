@@ -1435,15 +1435,17 @@ def generate_build_tree(
         cflags = compile_flags.copy()
         ld_flags = linker_flags.copy()
         if config == 'Release':
-          cflags += ["/O2", "/Ob2", "/DNDEBUG", "/Gw", "/GL"]
+          cflags += ["/O2", "/Ob2", "/DNDEBUG"]
         elif config == 'RelWithDebInfo':
-          cflags += ["/O2", "/Ob1", "/DNDEBUG", "/Gw", "/GL"]
+          cflags += ["/O2", "/Ob1", "/DNDEBUG"]
         elif config == 'Debug':
           cflags += ["/Ob0", "/Od", "/RTC1", "/fsanitize=address"]
           if platform.architecture()[0] != "32bit":
             cflags += ["/fsanitize=address"]
         elif config == 'MinSizeRel':
-          cflags += ["/O1", "/Ob1", "/DNDEBUG", "/Gw", "/GL"]
+          cflags += ["/O1", "/Ob1", "/DNDEBUG"]
+        if args.enable_lto:
+            cflags += ["/Gw", "/GL"]
         cxxflags = cflags.copy()
         cxxflags += ["/EHsc"]
 
