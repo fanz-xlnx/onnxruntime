@@ -182,7 +182,7 @@ stages:
         isTraining: true
         ORT_EP_NAME: CPU
         GenerateDocumentation: false
-        WITH_CACHE: true
+        WITH_CACHE: false
         MachinePool: 'onnxruntime-Win2022-CPU-training-AMD'
 
 - stage: ort_training_apis_x64_release
