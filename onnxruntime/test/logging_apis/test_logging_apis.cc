@@ -167,7 +167,13 @@ TEST_F(RealCAPITestsFixture, CApiLoggerLogMessage) {
                                                     ORT_FILE, line_num, static_cast<const char*>(__FUNCTION__)));
 }
 
+// The code below where it tests for formatting error generates an out-of-bound memory access. Therefore we disable it 
+// when memory sanitizer is enabled.
+#if defined(__SANITIZE_ADDRESS__)
+TEST_F(RealCAPITestsFixture, DISABLED_CppApiORTCXXLOG) {
+#else
 TEST_F(RealCAPITestsFixture, CppApiORTCXXLOG) {
+#endif
   // Tests the output and filtering of the ORT_CXX_LOG and ORT_CXX_LOG_NOEXCEPT macros in the C++ API.
   // The first two calls go through, but the last two calls are filtered out due to an insufficient severity.
 
@@ -267,7 +273,7 @@ TEST_F(RealCAPITestsFixture, CppApiORTCXXLOGF) {
   // Catch expected exception from ORT_CXX_LOGF macro.
   try {
     line_num = __LINE__ + 1;
-    ORT_CXX_LOGF(cpp_ort_logger, OrtLoggingLevel::ORT_LOGGING_LEVEL_ERROR, "%s", "abc");
+    ORT_CXX_LOGF(cpp_ort_logger, OrtLoggingLevel::ORT_LOGGING_LEVEL_ERROR, "%ls", "abc");
     FAIL();
   } catch (const Ort::Exception& excpt) {
     ASSERT_THAT(excpt.what(), testing::HasSubstr("Failed to log message due to formatting error"));
@@ -275,7 +281,7 @@ TEST_F(RealCAPITestsFixture, CppApiORTCXXLOGF) {
 
   // The formatting error is ignored with the ORT_CXX_LOGF_NOEXCEPT macro
   line_num = __LINE__ + 1;
-  ORT_CXX_LOGF_NOEXCEPT(cpp_ort_logger, OrtLoggingLevel::ORT_LOGGING_LEVEL_ERROR, "%s", "abc");
+  ORT_CXX_LOGF_NOEXCEPT(cpp_ort_logger, OrtLoggingLevel::ORT_LOGGING_LEVEL_ERROR, "%ls", "abc");
 }
 
 TEST_F(MockCAPITestsFixture, CppLogMacroBypassCApiCall) {
