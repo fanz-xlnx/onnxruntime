@@ -315,6 +315,7 @@ class GemmSoftmaxGemmPermuteMetric(ke.ComputeMetric):
         return f"{self.duration:>6.2f} us {self.tflops:>5.2f} tflops " + common
 
 
+@ke.dispatchable(pattern_args=0)
 def profile_gemm_softmax_gemm_permute_func(
     f, dtype, batch, seqlen, total_seqlen, num_heads, head_size, biased, mask_dim, scale, qkv_format
 ):
@@ -401,6 +402,7 @@ def profile_gemm_softmax_gemm_permute_func(
         )
 
 
+@ke.dispatchable
 def profile_with_args(dtype, batch, seqlen, total_seqlen, num_heads, head_size, biased, mask_dim, scale, qkv_format):
     with ke.benchmark():
         args = (dtype, batch, seqlen, total_seqlen, num_heads, head_size, biased, mask_dim, scale, qkv_format)
@@ -465,7 +467,7 @@ if __name__ == "__main__":
         profile()
     else:
         args = parser.parse_args()
-        args.func(
+        args.dispatch(
             args.dtype,
             args.batch,
             args.seqlen,
