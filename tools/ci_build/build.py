@@ -1444,7 +1444,8 @@ def generate_build_tree(
                     f"-DVERSION_PRIVATE_PART={MM}{DD}",
                     f"-DVERSION_STRING={ort_major}.{ort_minor}.{build_number}.{source_version[0:7]}",
                 ]
-
+    cflags = None
+    cxxflags = None
     for config in configs:
         if "CFLAGS" not in os.environ and "CXXFLAGS" not in os.environ:
             if is_windows():
